@@ -66,6 +66,23 @@ public class RunnerController {
         }
         return "redirect:/runner/" + id;
     }
+    @GetMapping("/runners")
+    public List<RunnerEntity> getAllRunners() {
+        return runnerRepository.findAll();
+    }
+
+    @GetMapping("/runners/average-age")
+    public double getAverageAgeOfRunners() {
+        List<RunnerEntity> runners = runnerRepository.findAll();
+        if (runners.isEmpty()) {
+            return 0; // Avoid division by zero
+        }
+
+        double sumOfAges = runners.stream()
+                                .mapToDouble(RunnerEntity::getAge)
+                                .sum();
+        return sumOfAges / runners.size();
+    }
 
 }
 

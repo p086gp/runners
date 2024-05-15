@@ -11,6 +11,7 @@ public class RunnerEntity {
     private long runnerId;
     private String runnerName;
     private long averagePace;
+    private int age; // életkor
 
     @OneToMany(mappedBy = "runner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LapTimeEntity> laptimes = new ArrayList<>();
@@ -31,6 +32,10 @@ public class RunnerEntity {
         return averagePace;
     }
 
+    public int getAge() { //  életkor lekérdezése
+        return age;
+    }
+
     public void setRunnerId(long runnerId) {
         this.runnerId = runnerId;
     }
@@ -41,6 +46,10 @@ public class RunnerEntity {
 
     public void setAveragePace(long averagePace) {
         this.averagePace = averagePace;
+    }
+    
+    public void setAge(int age) { // életkor beállítása
+        this.age = age;
     }
 
     public List<LapTimeEntity> getLaptimes() {

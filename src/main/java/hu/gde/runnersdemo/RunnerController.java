@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Controller
@@ -24,6 +26,16 @@ public class RunnerController {
     public String getAllRunners(Model model) {
         List<RunnerEntity> runners = runnerRepository.findAll();
         model.addAttribute("runners", runners);
+         // átlagéletkor
+         double averageAge = runners.stream()
+            .mapToDouble(RunnerEntity::getAge)
+            .average()
+            .orElse(0.0);
+          // Kerekítjük egy tizedesre
+         BigDecimal averageAgeRounded = BigDecimal.valueOf(averageAge)
+                                                   .setScale(2, RoundingMode.HALF_UP);
+
+        model.addAttribute("averageAge", averageAgeRounded);   
         return "runners";
     }
 

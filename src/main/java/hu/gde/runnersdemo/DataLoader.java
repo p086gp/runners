@@ -8,11 +8,14 @@ import org.springframework.stereotype.Component;
 public class DataLoader implements CommandLineRunner {
 
     private final RunnerRepository runnerRepository;
+    private final ShoeRepository shoeRepository; // ShoeRepository hozzáadása
 
     @Autowired
-    public DataLoader(RunnerRepository runnerRepository) {
+    public DataLoader(RunnerRepository runnerRepository, ShoeRepository shoeRepository) {
         this.runnerRepository = runnerRepository;
+        this.shoeRepository = shoeRepository;
     }
+
 
     @Override
     public void run(String... args) {
@@ -38,6 +41,11 @@ public class DataLoader implements CommandLineRunner {
 
         runnerRepository.save(runnerEntity);
 
+        // add default shoe to runner
+        ShoeEntity shoe1 = new ShoeEntity("Nike", runnerEntity);
+        shoeRepository.save(shoe1);
+
+
         RunnerEntity runnerEntity2 = new RunnerEntity();
         runnerEntity2.setRunnerName("Zsuzsi");
         runnerEntity2.setAveragePace(290);
@@ -59,6 +67,8 @@ public class DataLoader implements CommandLineRunner {
 
         runnerRepository.save(runnerEntity2);
 
+        ShoeEntity shoe2 = new ShoeEntity("Saucony", runnerEntity2);
+        shoeRepository.save(shoe2);
         
         // create third runner entity
         RunnerEntity runnerEntity3 = new RunnerEntity();
@@ -81,6 +91,9 @@ public class DataLoader implements CommandLineRunner {
         runnerEntity3.getLaptimes().add(laptime6);
 
         runnerRepository.save(runnerEntity3);
+
+        ShoeEntity shoe3 = new ShoeEntity("Adidas", runnerEntity3);
+        shoeRepository.save(shoe3);
     }
 }
 

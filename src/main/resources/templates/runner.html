@@ -24,6 +24,12 @@
       <td th:text="${averageLaptime}"></td>
     </tr>
     <tr>
+      <th>Used Shoe Types:</th>
+      <td>
+        <span th:each="shoe : ${shoes}" th:text="${shoe.name} + ' '"></span>
+      </td>
+    </tr>
+    <tr>  
       <td colspan="2">
         <table class="table">
           <thead>

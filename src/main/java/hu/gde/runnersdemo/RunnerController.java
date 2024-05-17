@@ -17,6 +17,9 @@ public class RunnerController {
     private RunnerRepository runnerRepository;
     @Autowired
     private LapTimeRepository lapTimeRepository;
+    @Autowired
+    private ShoeRepository shoeRepository;
+
     @GetMapping("/runners")
     public String getAllRunners(Model model) {
         List<RunnerEntity> runners = runnerRepository.findAll();
@@ -32,6 +35,11 @@ public class RunnerController {
             model.addAttribute("runner", runner);
             double averageLaptime = runnerService.getAverageLaptime(runner.getRunnerId());
             model.addAttribute("averageLaptime", averageLaptime);
+            
+            // Cipők hozzáadása
+            List<ShoeEntity> shoes = shoeRepository.findByRunner(runner);
+            model.addAttribute("shoes", shoes);
+
             return "runner";
         } else {
             // handle error when runner is not found
@@ -66,10 +74,34 @@ public class RunnerController {
         }
         return "redirect:/runner/" + id;
     }
-    @GetMapping("/runners")
-    public List<RunnerEntity> getAllRunners() {
-        return runnerRepository.findAll();
+
+    @GetMapping("/runner/{id}/addshoe")
+    public String showAddShoeForm(@PathVariable Long id, Model model) {
+        RunnerEntity runner = runnerRepository.findById(id).orElse(null);
+        if (runner != null) {
+            model.addAttribute("runner", runner);
+            ShoeEntity shoe = new ShoeEntity();
+            model.addAttribute("shoe", shoe);
+            return "addshoe";
+        } else {
+            // handle error when runner is not found
+            return "error";
+        }
     }
+
+    @PostMapping("/runner/{id}/addshoe")
+    public String addShoe(@PathVariable Long id, @ModelAttribute ShoeEntity shoe) {
+        RunnerEntity runner = runnerRepository.findById(id).orElse(null);
+        if (runner != null) {
+            shoe.setRunner(runner);
+            shoe.setId(null);
+            shoeRepository.save(shoe);
+        } else {
+            // handle error when runner is not found
+        }
+        return "redirect:/runner/" + id;
+    }
+
 
     @GetMapping("/runners/average-age")
     public double getAverageAgeOfRunners() {

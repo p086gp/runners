@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Shoe</title>
+</head>
+<body>
+    <h1>Add Shoe for Runner: [[${runner.runnerName}]]</h1>
+    <form action="#" th:action="@{/runner/{id}/addshoe(id=${runner.runnerId})}" th:object="${shoe}" method="post">
+        <label for="name">Shoe Name:</label>
+        <input type="text" id="name" th:field="*{name}" required>
+        <button type="submit">Add Shoe</button>
+    </form>
+</body>
+</html>

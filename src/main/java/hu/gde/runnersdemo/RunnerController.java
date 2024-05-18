@@ -113,7 +113,33 @@ public class RunnerController {
         }
         return "redirect:/runner/" + id;
     }
+    // a cipő módosíta
+    @GetMapping("/runner/{runnerId}/shoe/{shoeId}/edit")
+    public String showEditShoeForm(@PathVariable Long runnerId, @PathVariable Long shoeId, Model model) {
+        RunnerEntity runner = runnerRepository.findById(runnerId).orElse(null);
+        ShoeEntity shoe = shoeRepository.findById(shoeId).orElse(null);
+        if (runner != null && shoe != null) {
+            model.addAttribute("runner", runner);
+            model.addAttribute("shoe", shoe);
+            return "editshoe";
+        } else {
+            return "error";
+        }
+    }
 
+    // a cipő módosítása
+    @PostMapping("/runner/{runnerId}/shoe/{shoeId}/edit")
+    public String editShoe(@PathVariable Long runnerId, @PathVariable Long shoeId, @ModelAttribute ShoeEntity shoe) {
+        RunnerEntity runner = runnerRepository.findById(runnerId).orElse(null);
+        ShoeEntity existingShoe = shoeRepository.findById(shoeId).orElse(null);
+        if (runner != null && existingShoe != null) {
+            existingShoe.setName(shoe.getName());
+            shoeRepository.save(existingShoe);
+            return "redirect:/runner/" + runnerId;
+        } else {
+            return "error";
+        }
+    }
 
     @GetMapping("/runners/average-age")
     public double getAverageAgeOfRunners() {

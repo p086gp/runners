@@ -51,6 +51,7 @@
   </table>
   <hr>
   <a th:href="@{/runner/{id}/addlaptime(id=${runner.runnerId})}" class="btn btn-secondary">Add Laptime</a>
+  <a th:href="@{/runner/{runnerId}/shoe/{shoeId}/edit(runnerId=${runner.runnerId}, shoeId=${shoes[0].id})}" class="btn btn-secondary">Edit Shoe</a>
   <a href="/runners" class="btn btn-primary">Back to Home</a>
 </div>
 </body>

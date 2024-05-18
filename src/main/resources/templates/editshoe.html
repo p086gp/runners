@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Shoe</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Edit Shoe for Runner: [[${runner.runnerName}]]</h1>
+    <form th:action="@{/runner/{runnerId}/shoe/{shoeId}/edit(runnerId=${runner.runnerId}, shoeId=${shoe.id})}" th:object="${shoe}" method="post">
+        <div class="form-group">
+            <label for="name">Shoe Name:</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a th:href="@{/runner/{runnerId}(runnerId=${runner.runnerId})}" class="btn btn-secondary">Back to Runner</a>
+    </form>
+</div>
+</body>
+</html>
